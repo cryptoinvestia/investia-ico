@@ -1,3 +1,4 @@
+// https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/test/helpers/assertRevert.js
 export default async promise => {
   try {
     await promise;

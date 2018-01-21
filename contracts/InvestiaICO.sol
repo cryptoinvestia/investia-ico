@@ -3,6 +3,7 @@ pragma solidity ^0.4.17;
 import "zeppelin-solidity/contracts/crowdsale/Crowdsale.sol";
 import "./InvestiaToken.sol";
 
+
 contract InvestiaICO is Crowdsale, Ownable {
   function InvestiaICO(uint256 _rate, address _wallet)
     Crowdsale(now, (now + 90 days), _rate, _wallet) public
@@ -13,6 +14,7 @@ contract InvestiaICO is Crowdsale, Ownable {
   function createTokenContract() internal returns (MintableToken) {
     return new InvestiaToken();
   }
+
 
   // TODO:
   // * add an onlyOwner function to change the rate

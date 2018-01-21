@@ -1,11 +1,9 @@
-import assertRevert from 'helpers/assertRevert';
+import assertRevert from './helpers/assertRevert';
+import latestTime from './helpers/latestTime';
+import { increaseTimeTo, duration } from './helpers/increaseTime'
 
 const InvestiaToken = artifacts.require('InvestiaToken');
 const InvestiaICO = artifacts.require('InvestiaICO');
-
-const assertJump = function(error) {
-  assert.isAbove(error.message.search('VM Exception while processing transaction: revert'), -1, 'Invalid opcode error must be returned');
-};
 
 contract('InvestiaICO', function (accounts) {
   const rate = 1000;
@@ -13,11 +11,18 @@ contract('InvestiaICO', function (accounts) {
 
   beforeEach(async function () {
     this.ico = await InvestiaICO.new(rate, beneficiary);
+    this.startTime = latestTime();
   });
 
   it('should be active after creation', async function () {
     const hasEnded = await this.ico.hasEnded();
     assert.equal(false, hasEnded);
+  });
+
+  it('should be inactive after end time', async function () {
+    await increaseTimeTo(this.startTime + duration.days(91));
+    const hasEnded = await this.ico.hasEnded();
+    assert.equal(true, hasEnded);
   });
 
   it('should allow to transfer ownership', async function () {
