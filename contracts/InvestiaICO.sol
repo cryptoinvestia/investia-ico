@@ -11,17 +11,26 @@ contract InvestiaICO is Crowdsale, Ownable {
 
   }
 
+  function buyTokens(address beneficiary) public payable {
+    require(msg.value > 0.25 ether);
+    super.buyTokens(beneficiary);
+  }
+
   function setRate(uint256 _newRate) onlyOwner external {
     rate = _newRate;
+  }
+
+  function forwardFunds() internal {
+    uint256 weiAmount = msg.value;
+    uint256 walletTokens = weiAmount.mul(rate).div(5);
+    token.mint(wallet, walletTokens);
+    super.forwardFunds();
   }
 
   function createTokenContract() internal returns (MintableToken) {
     return new InvestiaToken();
   }
 
-
   // TODO:
-  // * require minimum transaction of 0.25ETH
-  // * override the buyTokens function to issue bonus tokens to wallet address
   // * add an onlyOwner function to transfer token ownership
 }
