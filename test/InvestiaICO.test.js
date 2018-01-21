@@ -34,4 +34,14 @@ contract('InvestiaICO', function (accounts) {
   it('should not allow to transfer ownership by not owner', async function () {
     await assertRevert(this.ico.transferOwnership(accounts[1], { from: accounts[1] }));
   });
+
+  it('should allow the owner to change rate', async function () {
+    await this.ico.setRate(2000);
+    const newRate = await this.ico.rate();
+    assert.equal(2000, newRate);
+  });
+
+  it('should not allow not owners to change rate', async function () {
+    await assertRevert(this.ico.setRate(2000, { from: accounts[1] }));
+  });
 });
