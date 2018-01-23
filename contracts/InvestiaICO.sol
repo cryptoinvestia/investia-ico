@@ -31,6 +31,11 @@ contract InvestiaICO is Crowdsale, Ownable {
     return new InvestiaToken();
   }
 
+  function transferTokenOwnership(address newOwner) public onlyOwner {
+    require (now > endTime);
+    token.transferOwnership(newOwner);
+  }
+
   // TODO:
   // * add an onlyOwner function to transfer token ownership
 }

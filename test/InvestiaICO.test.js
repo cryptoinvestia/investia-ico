@@ -42,6 +42,28 @@ contract('InvestiaICO', function (accounts) {
     });
   });
 
+  describe('token ownership', async function () {
+    it('should disallow to transfer token ownership before ico ends', async function () {
+      await assertRevert(this.ico.transferTokenOwnership(wallet));
+    });
+
+    describe('after ico has ended', async function () {
+      beforeEach(async function () {
+        await increaseTimeTo(this.startTime + duration.days(91));
+      });
+
+      it('should disallow non owners to transfer token ownership', async function () {
+        await assertRevert(this.ico.transferTokenOwnership(accounts[1], { from: accounts[1] }))
+      });
+
+      it('should allow owners to transfer token ownership', async function () {
+        await this.ico.transferTokenOwnership(accounts[1]);
+        const newTokenOwner = await this.token.owner();
+        assert.equal(accounts[1], newTokenOwner);
+      });
+    });
+  });
+
   describe('changing rate', async function () {
     it('should allow the owner to change rate', async function () {
       await this.ico.setRate(2000);
