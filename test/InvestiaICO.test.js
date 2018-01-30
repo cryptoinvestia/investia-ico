@@ -1,6 +1,6 @@
-import assertRevert from './helpers/assertRevert';
-import latestTime from './helpers/latestTime';
-import { increaseTimeTo, duration } from './helpers/increaseTime';
+import assertRevert from 'zeppelin-solidity/test/helpers/assertRevert';
+import latestTime from 'zeppelin-solidity/test/helpers/latestTime';
+import { increaseTimeTo, duration } from 'zeppelin-solidity/test/helpers/increaseTime';
 
 const InvestiaToken = artifacts.require('InvestiaToken');
 const InvestiaICO = artifacts.require('InvestiaICO');
