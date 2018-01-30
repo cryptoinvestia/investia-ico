@@ -1,5 +1,8 @@
 require('babel-register');
 require('babel-polyfill');
+require('babel-node-modules')([
+  'zeppelin-solidity'
+])
 
 module.exports = {
   networks: {
