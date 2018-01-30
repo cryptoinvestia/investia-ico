@@ -5,8 +5,8 @@ import "./InvestiaToken.sol";
 
 
 contract InvestiaICO is Crowdsale, Ownable {
-  function InvestiaICO(uint256 _rate, address _wallet)
-    Crowdsale(now, (now + 90 days), _rate, _wallet) public
+  function InvestiaICO(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet)
+    Crowdsale(_startTime, _endTime, _rate, _wallet) public
   {
 
   }
@@ -36,6 +36,4 @@ contract InvestiaICO is Crowdsale, Ownable {
     token.transferOwnership(newOwner);
   }
 
-  // TODO:
-  // * add an onlyOwner function to transfer token ownership
 }
