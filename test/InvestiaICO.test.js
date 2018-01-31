@@ -21,7 +21,7 @@ contract('InvestiaICO', function (accounts) {
     this.afterStartTime = this.startTime + duration.days(1);
     this.endTime = this.startTime + duration.days(3);
     this.afterEndTime = this.endTime + duration.seconds(1);
-    this.payingToken = await PayingTokenMock.new(investor, web3.toWei(100, "ether"));
+    this.payingToken = await PayingTokenMock.new(investor, web3.toWei(10000, "ether"));
     this.ico = await InvestiaICO.new(this.startTime, this.endTime, rate, this.payingToken.address, wallet);
     this.token = InvestiaToken.at(await this.ico.token());
   });
@@ -111,39 +111,39 @@ contract('InvestiaICO', function (accounts) {
 
   describe('paying with tokens', function () {
     it('should reject transfers before start time', async function () {
-      await this.payingToken.approve(this.ico.address, web3.toWei(10, "ether"), { from: investor });
-      await assertRevert(this.ico.buyWithTokens(web3.toWei(10, "ether"), { from: investor }));
+      await this.payingToken.approve(this.ico.address, web3.toWei(2000, "ether"), { from: investor });
+      await assertRevert(this.ico.buyWithTokens(web3.toWei(2000, "ether"), { from: investor }));
     });
 
     context('when ico is active', function () {
       beforeEach(async function () { await increaseTimeTo(this.afterStartTime); });
 
       it('should issue bonus tokens to wallet address', async function () {
-        await this.payingToken.approve(this.ico.address, web3.toWei(10, "ether"), { from: investor });
-        await this.ico.buyWithTokens(web3.toWei(10, "ether"), { from: investor });
+        await this.payingToken.approve(this.ico.address, web3.toWei(2000, "ether"), { from: investor });
+        await this.ico.buyWithTokens(web3.toWei(2000, "ether"), { from: investor });
         const walletBalance = await this.token.balanceOf(wallet);
-        assert.equal(2000, web3.fromWei(walletBalance, "ether").toNumber());
+        assert.equal(400000, web3.fromWei(walletBalance, "ether").toNumber());
       });
 
       it('should issue tokens to investor address', async function () {
-        await this.payingToken.approve(this.ico.address, web3.toWei(10, "ether"), { from: investor });
-        await this.ico.buyWithTokens(web3.toWei(10, "ether"), { from: investor });
+        await this.payingToken.approve(this.ico.address, web3.toWei(2000, "ether"), { from: investor });
+        await this.ico.buyWithTokens(web3.toWei(2000, "ether"), { from: investor });
         const investorBalance = await this.token.balanceOf(investor);
-        assert.equal(10000, web3.fromWei(investorBalance, "ether").toNumber());
+        assert.equal(2000000, web3.fromWei(investorBalance, "ether").toNumber());
       });
 
       it('should transfer paying tokens to wallet', async function () {
         const balancePre = await this.payingToken.balanceOf(wallet);
-        await this.payingToken.approve(this.ico.address, web3.toWei(10, "ether"), { from: investor });
-        await this.ico.buyWithTokens(web3.toWei(10, "ether"), { from: investor });
+        await this.payingToken.approve(this.ico.address, web3.toWei(2000, "ether"), { from: investor });
+        await this.ico.buyWithTokens(web3.toWei(2000, "ether"), { from: investor });
         const balancePost = await this.payingToken.balanceOf(wallet);
         const etherDifference = web3.fromWei(balancePost.minus(balancePre), "ether").toNumber();
-        assert.equal(10, etherDifference);
+        assert.equal(2000, etherDifference);
       });
 
-      it('should reject purchases of less than 0.25 tokens', async function () {
-        await this.payingToken.approve(this.ico.address, web3.toWei(0.24, "ether"), { from: investor });
-        await assertRevert(this.ico.buyWithTokens(web3.toWei(0.24, "ether"), { from: investor }));
+      it('should reject purchases of less than 1000 tokens', async function () {
+        await this.payingToken.approve(this.ico.address, web3.toWei(999, "ether"), { from: investor });
+        await assertRevert(this.ico.buyWithTokens(web3.toWei(999, "ether"), { from: investor }));
         const investorBalance = await this.token.balanceOf(investor);
         assert.equal(0, investorBalance);
       });
@@ -174,8 +174,8 @@ contract('InvestiaICO', function (accounts) {
       beforeEach(async function () { await increaseTimeTo(this.afterEndTime); });
 
       it('should reject transfers', async function () {
-        await this.payingToken.approve(this.ico.address, web3.toWei(10, "ether"), { from: investor });
-        await assertRevert(this.ico.buyWithTokens(web3.toWei(10, "ether"), { from: investor }));
+        await this.payingToken.approve(this.ico.address, web3.toWei(2000, "ether"), { from: investor });
+        await assertRevert(this.ico.buyWithTokens(web3.toWei(2000, "ether"), { from: investor }));
       });
     })
   });
