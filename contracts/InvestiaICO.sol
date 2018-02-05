@@ -45,8 +45,6 @@ contract InvestiaICO is Crowdsale, Ownable {
   }
 
   function validPurchase(uint256 _value) internal view returns (bool) {
-    bool withinPeriod = now >= startTime && now <= endTime;
-    bool minimumPurchaseValue = _value >= 1000 ether;
-    return withinPeriod && minimumPurchaseValue;
+    return now >= startTime && now <= endTime && _value >= 1000 ether;
   }
 }
