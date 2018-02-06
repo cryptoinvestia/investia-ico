@@ -22,8 +22,10 @@ contract('InvestiaICO', function (accounts) {
     this.endTime = this.startTime + duration.days(3);
     this.afterEndTime = this.endTime + duration.seconds(1);
     this.payingToken = await PayingTokenMock.new(investor, web3.toWei(10000, "ether"));
-    this.ico = await InvestiaICO.new(this.startTime, this.endTime, rate, this.payingToken.address, wallet);
-    this.token = InvestiaToken.at(await this.ico.token());
+    this.token = await InvestiaToken.new();
+    this.ico = await InvestiaICO.new(this.startTime, this.endTime, rate, this.payingToken.address,
+      wallet, this.token.address);
+    await this.token.transferOwnership(this.ico.address);
   });
 
   describe('ico duration', async function () {
@@ -87,7 +89,6 @@ contract('InvestiaICO', function (accounts) {
   describe('sending ether to fallback function', async function () {
     it('should reject transfers before start time', async function () {
       await assertRevert(this.ico.send(web3.toWei(1, "ether")));
-      await assertRevert(this.ico.buyTokens({ from: investor, value: web3.toWei(1, "ether") }));
     });
 
     context('when ico is active', function () {
@@ -95,7 +96,6 @@ contract('InvestiaICO', function (accounts) {
 
       it('should reject transfers of ethereum', async function () {
         await assertRevert(this.ico.send(web3.toWei(1, "ether")));
-        await assertRevert(this.ico.buyTokens({ from: investor, value: web3.toWei(1, "ether") }));
       });
     });
 
@@ -104,7 +104,6 @@ contract('InvestiaICO', function (accounts) {
 
       it('should reject transfers', async function () {
         await assertRevert(this.ico.send(web3.toWei(1, "ether")));
-        await assertRevert(this.ico.buyTokens({ from: investor, value: web3.toWei(1, "ether") }));
       });
     })
   });
