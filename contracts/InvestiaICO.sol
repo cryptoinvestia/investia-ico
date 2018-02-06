@@ -15,12 +15,12 @@ contract InvestiaICO is Ownable {
   // The token being sold
   MintableToken public token;
 
+  // Address where funds are collected
+  address public wallet;
+
   // Start and end timestamps where investments are allowed (both inclusive)
   uint256 public startTime;
   uint256 public endTime;
-
-  // Address where funds are collected
-  address public wallet;
 
   // How many token units a buyer gets per payingToken wei
   uint256 public rate;
