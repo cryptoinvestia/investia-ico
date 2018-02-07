@@ -9,6 +9,12 @@ const infuraToken = process.env.INFURA_TOKEN;
 const mnemonic = process.env.WALLET_MNEMONIC;
 
 module.exports = {
+  solc: {
+    optimizer: {
+      enabled: true,
+      runs: 200
+    }
+  },
   networks: {
     development: {
       host: "localhost",
