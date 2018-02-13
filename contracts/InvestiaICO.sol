@@ -75,11 +75,11 @@ contract InvestiaICO is Ownable {
     token.mint(wallet, tokens.div(5));
   }
 
-  function setRate(uint256 _newRate) onlyOwner external {
+  function setRate(uint256 _newRate) external onlyOwner {
     rate = _newRate;
   }
 
-  function transferTokenOwnership(address newOwner) public onlyOwner {
+  function transferTokenOwnership(address newOwner) external onlyOwner {
     require (now > endTime);
     token.transferOwnership(newOwner);
   }
