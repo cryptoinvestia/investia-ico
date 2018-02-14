@@ -76,6 +76,7 @@ contract InvestiaICO is Ownable {
   }
 
   function setRate(uint256 _newRate) external onlyOwner {
+    require(_newRate < rate);
     rate = _newRate;
   }
 
