@@ -72,7 +72,7 @@ contract InvestiaICO is Ownable {
     TokenPurchase(msg.sender, _value, tokens);
 
     // Mint a bonus commision for ICO
-    token.mint(wallet, tokens.div(5));
+    token.mint(wallet, tokens.div(9));
   }
 
   function setRate(uint256 _newRate) external onlyOwner {

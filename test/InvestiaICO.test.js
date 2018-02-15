@@ -121,7 +121,7 @@ contract('InvestiaICO', function (accounts) {
         await this.payingToken.approve(this.ico.address, web3.toWei(2000, "ether"), { from: investor });
         await this.ico.buyWithTokens(web3.toWei(2000, "ether"), { from: investor });
         const walletBalance = await this.token.balanceOf(wallet);
-        assert.equal(400000, web3.fromWei(walletBalance, "ether").toNumber());
+        assert.equal(222222.22222222222, web3.fromWei(walletBalance, "ether").toNumber());
       });
 
       it('should issue tokens to investor address', async function () {
