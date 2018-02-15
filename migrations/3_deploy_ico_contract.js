@@ -3,7 +3,7 @@ var InvestiaToken = artifacts.require("InvestiaToken");
 
 module.exports = async function(deployer, network) {
   if (network === 'ropsten') {
-    const rate = 1000;
+    const rate = 100;
     const wallet = '0xF416c25f992d14B4DD070cEC0e8941ea5331CCBe';
     const payingToken = '0x0d3ff957c60981eaedb2a6e9926f8829945ae53d';
     const block = await new Promise((resolve, reject) => {
