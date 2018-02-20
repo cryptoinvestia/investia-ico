@@ -75,14 +75,22 @@ contract('InvestiaICO', function (accounts) {
   });
 
   describe('changing rate', async function () {
-    it('should allow the owner to change rate', async function () {
-      await this.ico.setRate(2000);
+    it('it should allow the owner to reduce the rate', async function () {
+      await this.ico.setRate(999);
       const newRate = await this.ico.rate();
-      assert.equal(2000, newRate);
+      assert.equal(999, newRate);
     });
 
-    it('should not allow not owners to change rate', async function () {
-      await assertRevert(this.ico.setRate(2000, { from: accounts[1] }));
+    it('it should not allow the owner to set the same rate', async function () {
+      await assertRevert(this.ico.setRate(1000));
+    });
+    
+    it('should not allow the owner to increase the rate', async function () {
+      await assertRevert(this.ico.setRate(2000));
+    });
+    
+    it('should not allow non-owners to change the rate', async function () {
+      await assertRevert(this.ico.setRate(999, { from: accounts[1] }));
     });
   });
 
