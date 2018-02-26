@@ -148,9 +148,9 @@ contract('InvestiaICO', function (accounts) {
         assert.equal(2000, etherDifference);
       });
 
-      it('should reject purchases of less than 1000 tokens', async function () {
-        await this.payingToken.approve(this.ico.address, web3.toWei(999, "ether"), { from: investor });
-        await assertRevert(this.ico.buyWithTokens(web3.toWei(999, "ether"), { from: investor }));
+      it('should reject purchases of less than 900 tokens', async function () {
+        await this.payingToken.approve(this.ico.address, web3.toWei(899, "ether"), { from: investor });
+        await assertRevert(this.ico.buyWithTokens(web3.toWei(899, "ether"), { from: investor }));
         const investorBalance = await this.token.balanceOf(investor);
         assert.equal(0, investorBalance);
       });

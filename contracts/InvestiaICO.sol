@@ -90,6 +90,6 @@ contract InvestiaICO is Ownable {
   }
 
   function validPurchase(uint256 _value) internal view returns (bool) {
-    return now >= startTime && now <= endTime && _value >= 1000 ether;
+    return now >= startTime && now <= endTime && _value >= 900 ether;
   }
 }
