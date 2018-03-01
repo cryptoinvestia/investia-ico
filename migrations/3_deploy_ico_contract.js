@@ -11,7 +11,7 @@ module.exports = async function(deployer, network) {
     });
 
     const startTime = block.timestamp + 120;
-    const endTime = startTime + (86400 * 180); // 30 days
+    const endTime = startTime + (86400 * 180); // 180 days
 
     await deployer.deploy(InvestiaICO, startTime, endTime, rate, payingToken, wallet, InvestiaToken.address);
 
